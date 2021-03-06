@@ -17,7 +17,7 @@ int main()
 	do
 	{
 		int num;
-		cout <<"Enter a number between 1 and 10 to display it's factorial: ";
+		cout <<"Enter a number between 1 and 10 to display it's factorial value: ";
 		cin >>num;
 		cout <<factorial(num)<<"\n\n";
 		
