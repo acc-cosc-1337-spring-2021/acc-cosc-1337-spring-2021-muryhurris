@@ -13,26 +13,63 @@ int main()
 	//Variable and class definitions.
 	Game game;
 	string player;
+	string again;
 	int position;
+	
 
-	//Prompts the user to enter in either 'X' or 'O' to being playing tic tac toe.
-	cout<<"Ready to play tic tac toe? To start, type either X or O to claim your marker: ";
-	cin>>player;
-
-	//Starts the game and retrieves the players inputs and displays them on the board.
-	game.start_game(player);
-	game.display_board();
-
-	//Do-While loop that keeps the game going and continues to prompt the players to enter in playable positions numbers.
-	do
+	//While loop that keeps the game running. After the first game played, the user will be asked to input 'Y/y' in order to play again.
+	while(again == "Y" or 'y')
 	{
-		//As long as the player selects a position between 1-9, the game continues.
-		cout<<"Player "<<game.get_player()<<" select a spot 1-9 to place your marker. \nType '10' if you'd like to close the board: ";
-		cin>>position;
-		game.mark_board(position);
+		//Asks for the player to input their desired marker. 
+		cout<<"Welcome To Tic Tac Toe! Select Either X or O to pick your marker and get started! ";
+		cin>>player;
+
+		//The second player is assigned whatever the first player didn't choose.
+		while (player != "X" or player != "O")
+		{
+			//The players decide who goes first. 
+			cout<<"Select the player that'll be going first! Either X or O: ";
+			cin>>player;
+			if (player == "X" or player == "O")
+			{
+				break;
+			}
+		}
+		//The game starts with whoever was chosen to go first'
+		game.start_game(player);
+		//The board is displayed
 		game.display_board();
 
-	//If the player enters the number 10, the loop breaks and the game ends.
-	}while(position != 10);
+		//While loop that prompts the players to pick a position until: 1. A player wins 2. There's a tie. 
+		while(game.game_over() == false)
+		{
+			cout<<"Player "<<game.get_player()<<", Pick a position (1-9): ";
+			cin>>position;
+			
+			//While loop that protects against using any numbers smaller than 1 or larger than 9. 
+			while(position < 1 or position > 9)
+			{
+				cout<<"That position doesn't exist! Please try again: ";
+				cin>>position;
+			}
+			//Marks the board depending on what position the players chose, then displays the board with the new positions.
+			game.mark_board(position);
+			game.display_board();
+		}
+	//If there's a tie, the 'game_winner' function announces it.
+	if(game.get_winner() == "C")
+	{
+		cout<<"It's a TIE!";
+	}
+	
+	//If there's not a tie, the 'game_winner' function announces the player. 
+	else
+	cout<<"Player "<<game.get_winner()<<" has WON!\n";
+
+	//Prompts the user to enter either 'Y' or 'y' to play Tic Tac Toe again.
+	cout<<"Play again? Enter Y/y to continue: ";
+	cin>>again;
+	}
+	
 	return 0;
 }
