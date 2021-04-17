@@ -1,5 +1,5 @@
 //Include Statements
-#include "tic_tac_toe.h"
+#include "tic_tac_toe_manager.h"
 #include <iostream>
 
 //Using Statements
@@ -7,69 +7,90 @@ using std::cin;
 using std::cout;
 using std::string;
 
-//Main function
+
+//Main Function
 int main() 
-{	
-	//Variable and class definitions.
-	Game game;
-	string player;
-	string again;
+{
+
+	//Variables and Classes.
 	int position;
-	
+	string player = "";
+	int o_win = 0;
+	int x_win = 0;
+	int tie = 0;
+	TicTacToe game;
+	TicTacToeManager manager;
 
-	//While loop that keeps the game running. After the first game played, the user will be asked to input 'Y/y' in order to play again.
-	while(again == "Y" or 'y')
-	{
-		//Asks for the player to input their desired marker. 
-		cout<<"Welcome To Tic Tac Toe! Select Either X or O to pick your marker and get started! ";
+		
+		//Welcomes the user to the game and prompts the user to enter the number '10' if they'd
+		//like to kill the program. 
+		cout<<"Welcome to Tic Tac Toe! If you'd like to quit the game, \n";
+		cout<< "type 10 to exit!\n";
+		
+	//Prompts the first player to select a marker (X or O) then assigns the seconds player their marker automatically.
+	//Then prompts both players which one should go first.
+	do { 
+		cout<<"Select Either X or O to pick your marker and get started: \n";
 		cin>>player;
-
-		//The second player is assigned whatever the first player didn't choose.
-		while (player != "X" or player != "O")
+		while (player != "X" || player != "O" ) 
 		{
-			//The players decide who goes first. 
-			cout<<"Select the player that'll be going first! Either X or O: ";
+			cout<<"Select the player that'll be going first! Either X or O: \n";
 			cin>>player;
-			if (player == "X" or player == "O")
+			if (player == "X" || player == "O") 
 			{
 				break;
 			}
 		}
-		//The game starts with whoever was chosen to go first'
-		game.start_game(player);
-		//The board is displayed
-		game.display_board();
+			//Starts the game with player 1.
+			game.start_game(player);
+			cout << game;
 
-		//While loop that prompts the players to pick a position until: 1. A player wins 2. There's a tie. 
-		while(game.game_over() == false)
-		{
-			cout<<"Player "<<game.get_player()<<", Pick a position (1-9): ";
-			cin>>position;
-			
-			//While loop that protects against using any numbers smaller than 1 or larger than 9. 
-			while(position < 1 or position > 9)
-			{
-				cout<<"That position doesn't exist! Please try again: ";
-				cin>>position;
+			//Keeps the game running while true
+			bool keep_playing = true;
+
+			//Prompts the user to pick a position as long as the 'keep_playing' variable is 'true'.
+			while(keep_playing) {
+				cout << "Player "<< game.get_player() <<", pick a position (1-9): \n";
+				cin >> game;
+
+
+				if (game.game_over()) {
+						
+						//Saves the game once the game ends and assigns the winner a point.
+						//If a tie occurs, a point goes to the tie points.
+						manager.save_game(game);
+						manager.get_winner_total(o_win, x_win, tie);
+
+
+						string winner = game.get_winner();
+						string message = winner == "C" ? "It\'s a TIE!\n\n" : "Player " + winner + " WINS! \n";
+
+						cout<< message;
+						cout<< "All wins: \n";
+						cout<< "Player X: "<<x_win<<"\n";
+						cout<< "Player O: "<<o_win<<"\n";
+						cout<< "Ties: "<<tie<<"\n";
+						cout<<"Would you like to play again? Enter Y for yes and N for no: \n";
+
+						string answer;
+						cin>>answer;
+
+					//Keeps the game running as long as the player answers "Y/y"
+					if (answer == "N" || answer == "n") {
+						cout<<manager;
+						keep_playing = false;
+						position = 10;
+					} else {
+						keep_playing = false;
+					}
+
+				} else {
+						cout<<game;
+				}
 			}
-			//Marks the board depending on what position the players chose, then displays the board with the new positions.
-			game.mark_board(position);
-			game.display_board();
-		}
-	//If there's a tie, the 'game_winner' function announces it.
-	if(game.get_winner() == "C")
-	{
-		cout<<"It's a TIE!";
-	}
-	
-	//If there's not a tie, the 'game_winner' function announces the player. 
-	else
-	cout<<"Player "<<game.get_winner()<<" has WON!\n";
 
-	//Prompts the user to enter either 'Y' or 'y' to play Tic Tac Toe again.
-	cout<<"Play again? Enter Y/y to continue: ";
-	cin>>again;
-	}
-	
+		}while(position != 10);
+
+
 	return 0;
 }

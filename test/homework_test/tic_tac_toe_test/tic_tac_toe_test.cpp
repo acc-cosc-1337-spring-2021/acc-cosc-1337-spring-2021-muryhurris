@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
 //Include Statement
-#include "tic_tac_toe.h"
+#include "tic_tac_toe_manager.h"
 
 TEST_CASE("Verify Test Configuration", "verification") {
 	REQUIRE(true == true);
@@ -11,7 +11,7 @@ TEST_CASE("Verify Test Configuration", "verification") {
 TEST_CASE("Test game over if 9 slots are selected.")
 {
 	//Creates a sudo tic tac toe game.
-	Game game;
+	TicTacToe game;
 	//Calls the 'start_game' function with 'X' as the first player. 
 	game.start_game("X");
 	//Calls 'mark_board' function 9 times, for all 9 positions of the board.
@@ -32,7 +32,7 @@ REQUIRE(game.get_winner() == "X");
 //Tests the 'start_game' function by testing and playing as player 'X'
 TEST_CASE("Test the 'start_game' function: Player 'X")
 {
-	Game game;
+	TicTacToe game;
 	game.start_game("X");
 	REQUIRE(game.get_player() == "X");
 }
@@ -40,7 +40,7 @@ TEST_CASE("Test the 'start_game' function: Player 'X")
 //Tests the 'start_game' function by testing and playing as player 'O'
 TEST_CASE("Test the 'start_game' function: Player 'O'")
 {
-	Game game;
+	TicTacToe game;
 	game.start_game("O");
 	REQUIRE(game.get_player() == "O");
 }
@@ -52,7 +52,7 @@ TEST_CASE("Test the 'start_game' function: Player 'O'")
 //Tests the 'check_diagonal_win' function and fills positions 1-5-9 with 'X', then ends the game.
 TEST_CASE("Test the 'check_diagonal_win' function: Starting from position 1 down to position 9, through position 5")
 {
-	Game game;
+	TicTacToe game;
 
 	game.start_game("X");
 	game.mark_board(1); //X
@@ -71,7 +71,7 @@ TEST_CASE("Test the 'check_diagonal_win' function: Starting from position 1 down
 //Tests the 'check_diagonal_win' function and fills positions 7-5-3 with 'X', then ends the game.
 TEST_CASE("Test the 'check_diagonal_win' function: Starting from position 7 up to position 3, through position 5")
 {
-	Game game;
+	TicTacToe game;
 
 	game.start_game("X");
 	game.mark_board(7); //X
@@ -90,7 +90,7 @@ TEST_CASE("Test the 'check_diagonal_win' function: Starting from position 7 up t
 //Tests the 'check_column_win' function and fills positions 1-4-7 with 'X', then ends the game.
 TEST_CASE("Test 'check_column_win' function: Starting from position 1 down to 7, through 4")
 {
-	Game game;
+	TicTacToe game;
 	game.start_game("X");
 	game.mark_board(1); //X
 	game.mark_board(2);	//O
@@ -108,7 +108,7 @@ TEST_CASE("Test 'check_column_win' function: Starting from position 1 down to 7,
 //Tests the 'check_column_win' function and fills positions 2-5-8 with 'X', then ends the game.
 TEST_CASE("Test 'check_column_win' function: Starting from position 2 down to 8, through 5")
 {
-	Game game;
+	TicTacToe game;
 	game.start_game("X");
 	game.mark_board(2); //X
 	game.mark_board(1); //O
@@ -126,7 +126,7 @@ TEST_CASE("Test 'check_column_win' function: Starting from position 2 down to 8,
 //Tests the 'check_column_win' function and fills positions 3-6-9 with 'X', then ends the game.
 TEST_CASE("Test 'check_column_win' function: Starting from position 3 down to 9, through 6")
 {
-	Game game;
+	TicTacToe game;
 	game.start_game("X");
 	game.mark_board(3); //X
 	game.mark_board(1);	//O
@@ -144,7 +144,7 @@ TEST_CASE("Test 'check_column_win' function: Starting from position 3 down to 9,
 //Tests the 'check_row_win' function and fills positions 1-2-3 with 'X', then ends the game.
 TEST_CASE("Test 'check_row_win' function: Starting from position 1 to 3, through 2")
 {
-	Game game;
+	TicTacToe game;
 	game.start_game("X");
 	game.mark_board(1); //X
 	game.mark_board(4); //O
@@ -162,7 +162,7 @@ TEST_CASE("Test 'check_row_win' function: Starting from position 1 to 3, through
 //Tests the 'check_column_win' function and fills positions 4-5-6 with 'X', then ends the game.
 TEST_CASE("Test 'check_row_win' function: Starting from position 4 to 6, through 5")
 {
-	Game game;
+	TicTacToe game;
 	game.start_game("X");
 	game.mark_board(4); //X
 	game.mark_board(3); //O
@@ -180,7 +180,7 @@ TEST_CASE("Test 'check_row_win' function: Starting from position 4 to 6, through
 //Tests the 'check_column_win' function and fills positions 7-8-9 with 'X', then ends the game.
 TEST_CASE("Test 'check_row_win' function: Starting from position 7 to 9, through 8")
 {
-	Game game;
+	TicTacToe game;
 	game.start_game("X");
 	game.mark_board(7); //X
 	game.mark_board(4); //O
@@ -189,4 +189,68 @@ TEST_CASE("Test 'check_row_win' function: Starting from position 7 to 9, through
 	game.mark_board(9); //X
 
 	REQUIRE(game.game_over() == true);
+}
+
+// --GAME  WINNER--
+  //  |   |   |   |
+  //  | X | X | X |
+  //  |   |   |   |
+//Tests the 'TicTacToeManager' class and fills positions 3-4-5 with 'X', then saves the game.
+TEST_CASE("Test 'TicTacToeManager' class and ensures games save")
+{
+	TicTacToeManager manager;
+	TicTacToe game;
+
+// --GAME 1 WINNER--
+  //  |   |   |   |
+  //  | X | X | X |
+  //  |   |   |   |
+	game.start_game("X");
+	game.mark_board(7); //O
+	game.mark_board(2); //O
+	game.mark_board(5); //X
+	game.mark_board(4); //X
+	game.mark_board(3); //X
+
+	//Saves Game 1: Winner X
+	REQUIRE(game.game_over() == true);
+	manager.save_game(game);
+
+// --GAME 2 WINNER--
+  //  |   |   |   |
+  //  | X | X | X |
+  //  |   |   |   |
+	game.start_game("X");
+	game.mark_board(7); //O
+	game.mark_board(2); //O
+	game.mark_board(5); //X
+	game.mark_board(4); //X
+	game.mark_board(3); //X
+	
+	//Saves Game 2: Winner X
+	REQUIRE(game.game_over() == true);
+	manager.save_game(game);
+
+// --GAME  3 WINNER--
+  //  |   |   |   |
+  //  | X | X | X |
+  //  |   |   |   |
+	game.start_game("X");
+	game.mark_board(7); //O
+	game.mark_board(2); //O
+	game.mark_board(5); //X
+	game.mark_board(4); //X
+	game.mark_board(3); //X
+	
+	//Saves Game 3: Winner X
+	REQUIRE(game.game_over() == true);
+	manager.save_game(game);
+
+	//Totals the winners points up and displays them.
+	int x, o, t;
+	manager.get_winner_total(o, x, t);
+	
+	//Three wins required to win. 
+	REQUIRE(x == 3);
+
 }
