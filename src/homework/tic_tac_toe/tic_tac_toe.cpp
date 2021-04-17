@@ -1,10 +1,10 @@
 //Include Statements
 #include "tic_tac_toe.h"
 #include <iostream>
-
+ 
 //Using Statements
 using std::cout;
-
+ 
 //Function in charge of clearing the board.
 void TicTacToe::clear_board() 
 {
@@ -13,7 +13,7 @@ void TicTacToe::clear_board()
     pegs[i] = " ";
   }
 }
-
+ 
 //Function in charge of declaring the winner based on the filled positions of the board.
 void TicTacToe::set_winner()
 {
@@ -23,7 +23,7 @@ void TicTacToe::set_winner()
     winner = "X";
   }
 }
-
+ 
 //Function that controls if the game is over.
 //The game ends if:
 //1. There's a COLUMN_WIN or
@@ -48,8 +48,8 @@ bool TicTacToe::game_over()
   }
   return false;
 }
-
-
+ 
+ 
 //Function that's incharge of following/checking the board to see if it's full. 
 bool TicTacToe::check_board_full() 
 {
@@ -63,15 +63,15 @@ bool TicTacToe::check_board_full()
   }
   return is_full;
 }
-
-
+ 
+ 
 //Function that's incharge of starting the game,
 void TicTacToe::start_game(string first_player) 
 {
   player = first_player;
   this -> clear_board();
 }
-
+ 
 //Function that sets the second players marker depending on what the first player chose.
 void TicTacToe::set_next_player()
 {
@@ -80,15 +80,15 @@ void TicTacToe::set_next_player()
   else  
     player = "X";
 }
-
+ 
 //Function incharge of marking the displayed board.
 void TicTacToe::mark_board(int position) 
 {
   pegs[position - 1] = this ->player;
   this -> set_next_player();
 }
-
-
+ 
+ 
 //Creates the board and displays it.
 std::ostream& operator<<(std::ostream& out, const TicTacToe& game) 
 {
@@ -102,7 +102,7 @@ std::ostream& operator<<(std::ostream& out, const TicTacToe& game)
   }
   return out;
 }
-
+ 
 //Makes sure the position chosen is the one filled and displayed.
 std::istream& operator>>(std::istream& in, TicTacToe& game) 
 {
@@ -111,7 +111,7 @@ std::istream& operator>>(std::istream& in, TicTacToe& game)
   game.mark_board(position);
   return in;
 }
-
+ 
 bool TicTacToe::check_column_win() 
 {
   bool win = false;
@@ -130,12 +130,12 @@ bool TicTacToe::check_column_win()
     win = true;
     return win;
   }
-
+ 
 //POSITIONS 1, 4, 7!
 //  |  | 1 |   |
 //  |  | 4 |   |
 //  |  | 7 |   |
-
+ 
    if (pegs[1] == "X" && pegs[4] == "X" && pegs[7] == "X") 
    {
     win = true;
@@ -146,7 +146,7 @@ bool TicTacToe::check_column_win()
     win = true;
     return win;
    }
-
+ 
 //POSITIONS 2, 5, 8!
 //  |  |  | 2 |
 //  |  |  | 5 |
@@ -163,12 +163,12 @@ bool TicTacToe::check_column_win()
   }
   return win;
 }
-
-
+ 
+ 
 bool TicTacToe::check_row_win() 
 {
   bool win = false;
-
+ 
 // POSITIONS 0, 1, 2!
 //  | 0 | 1 | 2 |
 //  |   |   |   |
@@ -216,13 +216,13 @@ bool TicTacToe::check_row_win()
   }
   return win;
 }
-
-
+ 
+ 
 //Check Diagonal Win Function: Checks Positions -> 0,4,8 & 2,4,6
 bool TicTacToe::check_diagonal_win()
 {
   bool win = false;
-
+ 
 // POSITIONS 0, 4, 8!
 //  | 0 |   |   |
 //  |   | 4 |   |
@@ -237,7 +237,7 @@ bool TicTacToe::check_diagonal_win()
     win = true;
     return win;
   }
-
+ 
 // POSITIONS 2, 4, 6!
 //  |   |   | 2 |
 //  |   | 4 |   |
