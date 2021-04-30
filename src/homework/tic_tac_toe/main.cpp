@@ -2,6 +2,7 @@
 #include "tic_tac_toe_manager.h"
 #include "tic_tac_toe_3.h"
 #include "tic_tac_toe_4.h"
+#include "tic_tac_toe_data.h"
 #include<memory>
 #include<iostream>
  
@@ -21,7 +22,8 @@ int main()
     int o_win = 0;
     int x_win = 0;
     int tie = 0;
-    TicTacToeManager manager;
+    TicTacToeData data;
+	TicTacToeManager manager(data);
 	
 	//Prompts the user to choose which board size and player they'd like to select. 
     cout<<"Welcome to tic tac toe.\n";

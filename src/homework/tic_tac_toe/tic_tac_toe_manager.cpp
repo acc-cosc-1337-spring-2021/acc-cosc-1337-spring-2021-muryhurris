@@ -1,6 +1,20 @@
 //Include Statements
 #include "tic_tac_toe_manager.h"
+#include "tic_tac_toe_data.h"
 #include <iostream>
+
+//Saves the games data
+TicTacToeManager::~TicTacToeManager() {
+  std::cout<<"Saving games";
+  data.save_games(games);
+}
+TicTacToeManager::TicTacToeManager(TicTacToeData d): data{d} {
+  games = data.get_games();
+
+  for (auto& game: games) {
+    update_winner_count(game ->get_winner());
+  }
+}
 
 //Updates how many wins a player has by their marker. 
 void TicTacToeManager::update_winner_count(string winner) 
